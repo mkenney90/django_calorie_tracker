@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% load static %}
+    <title>Calorie Tracker</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="{% static 'tracker/styles.css' %}">
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="jumbotron">
+                    <h1 class="display-4">Calorie Tracker</h1>
+                    <h2>Total Calories: {{ total_calories }}</h2>
+                    <a class="btn btn-primary btn-lg" href="{% url 'add_entry' %}" role="button">Add Entry</a>
+                </div>
+                <ul class="list-group">
+                    {% for entry in entries %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            {{ entry.date }}: {{ entry.food_item }} - {{ entry.calories }} kcal
+                            <form method="post" action="{% url 'delete_entry' entry.id %}" class="d-inline">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                            </form>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
